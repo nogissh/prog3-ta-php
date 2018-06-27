@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  php:
+    depends_on:
+      - db
+    image: php7_apache
+    container_name: php
+    tty: true
+    volumes:
+      - "./html:/var/www/html"
+    ports:
+      - 8000:80
+    links:
+      - db
+
+  db:
+    build: "./db"
+    volumes:
+      - "./db:/home"
+    container_name: mysql
+    tty: true
+    working_dir: "/"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+    ports:
+      - "13306:3306"
